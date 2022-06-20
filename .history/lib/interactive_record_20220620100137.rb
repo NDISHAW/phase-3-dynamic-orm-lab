@@ -30,30 +30,6 @@ class InteractiveRecord
     end
 
     def table_name_for_insert
-        self.class.table_name  
-    end
-
-    def values_for_insert
-        values = []
-        self.class.column_names.each do |col_name|
-            values << "'#{send(col_name)}'" unless send(col_name).nil?
-        end
-        values.join(", ")
-    end
-
-    def col_names_for_insert
-        self.class.column_names.delete_if {|col_name| col_name == "id"}.join(", ")
-    end
-
-    def self.find_by_name(name)
-        sql = "SELECT * FROM #{self.table_name} WHERE name = '#{name}'"
-        DB[:conn].execute(sql)
-    end
-
-    def self.find_by(attribute, value)
-       value = attribute_hash.values.values.first
-       formatted_value = value.class == Fixnum ? value : "'#{value}'"
-       sql = "SELECT * FROM #{self.table_name} WHERE #{attribute_hash.keys.first} = #{formatted_value}"
-       DB[:conn].execute(sql)
+        self.class.table_name  t
     end
 end
